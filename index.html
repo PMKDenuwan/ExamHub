@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamHub - Empowering Students Through Interactive Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            font-size: 3em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            color: #666;
+            font-style: italic;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .option-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .option-card.subject {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .option-card.module {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .option-card.stage {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .option-card:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-button {
+            background: #6c757d;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #5a6268;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .quiz-container {
+            margin: 30px 0;
+        }
+
+        .question {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .question h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            background: white;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .quiz-option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .quiz-option.correct {
+            border-color: #28a745;
+            background: #28a745;
+            color: white;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #dc3545;
+            background: #dc3545;
+            color: white;
+        }
+
+        .submit-quiz {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .submit-quiz:hover {
+            transform: translateY(-2px);
+        }
+
+        .certificate {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 5px solid #fdcb6e;
+            margin: 30px 0;
+        }
+
+        .certificate h2 {
+            color: #2d3436;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        .certificate p {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #2d3436;
+        }
+
+        .download-cert {
+            background: #00b894;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .stage-status {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .stage-indicator {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            background: #ccc;
+        }
+
+        .stage-indicator.completed {
+            background: #28a745;
+        }
+
+        .stage-indicator.current {
+            background: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">ExamHub</div>
+            <div class="tagline">Empowering students through interactive learning</div>
+        </div>
+
+        <!-- Homepage -->
+        <div class="section active" id="homepage">
+            <div class="section-title">Select Your Grade</div>
+            <div class="options-grid">
+                <button class="option-card" onclick="selectGrade(6)">Grade 6</button>
+                <button class="option-card" onclick="selectGrade(7)">Grade 7</button>
+                <button class="option-card" onclick="selectGrade(8)">Grade 8</button>
+                <button class="option-card" onclick="selectGrade(9)">Grade 9</button>
+                <button class="option-card" onclick="selectGrade(10)">Grade 10</button>
+                <button class="option-card" onclick="selectGrade(11)">Grade 11</button>
+            </div>
+        </div>
+
+        <!-- Medium Selection -->
+        <div class="section" id="medium-selection">
+            <button class="back-button" onclick="goBack()">← Back</button>
+            <div class="section-title">Select Medium of Instruction</div>
+            <div class="options-grid">
+                <button class="option-card" onclick="selectMedium('english')">English</button>
+                <button class="option-card" onclick="selectMedium('sinhala')">Sinhala</button>
+            </div>
+        </div>
+
+        <!-- Subject Selection -->
+        <div class="section" id="subject-selection">
+            <button class="back-button" onclick="goBack()">← Back</button>
+            <div class="section-title">Select Subject</div>
+            <div class="options-grid" id="subjects-grid"></div>
+        </div>
+
+        <!-- Module Selection -->
+        <div class="section" id="module-selection">
+            <button class="back-button" onclick="goBack()">← Back</button>
+            <div class="section-title" id="module-title">Select Module</div>
+            <div class="options-grid" id="modules-grid"></div>
+        </div>
+
+        <!-- Stage Selection -->
+        <div class="section" id="stage-selection">
+            <button class="back-button" onclick="goBack()">← Back</button>
+            <div class="section-title" id="stage-title">Module Stages</div>
+            <div class="stage-status" id="stage-status"></div>
+            <div class="options-grid" id="stages-grid"></div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="section" id="quiz-section">
+            <button class="back-button" onclick="goBack()">← Back</button>
+            <div class="section-title" id="quiz-title">Stage Quiz</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="quiz-progress"></div>
+            </div>
+            <div class="quiz-container" id="quiz-container"></div>
+            <button class="submit-quiz" id="submit-quiz" onclick="submitQuiz()" style="display:none;">Submit Quiz</button>
+        </div>
+
+        <!-- Certificate Section -->
+        <div class="section" id="certificate-section">
+            <div class="certificate" id="certificate">
+                <h2>🎓 Certificate of Completion</h2>
+                <p>This certifies that</p>
+                <h3 id="cert-name">Student</h3>
+                <p>has successfully completed</p>
+                <h3 id="cert-module">Module Name</h3>
+                <p>Date of completion: <span id="cert-date"></span></p>
+                <button class="download-cert" onclick="downloadCertificate()">Download Certificate</button>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="option-card" onclick="continueLearning()">Continue Learning</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let appState = {
+            currentSection: 'homepage',
+            selectedGrade: null,
+            selectedMedium: null,
+            selectedSubject: null,
+            selectedModule: null,
+            currentStage: null,
+            userProgress: {},
+            quizAnswers: [],
+            currentQuestionIndex: 0,
+            quizScore: 0
+        };
+
+        // Sample Data
+        const subjects = {
+            english: ['Mathematics', 'Science', 'History', 'Geography', 'English Language', 'Literature'],
+            sinhala: ['ගණිතය', 'විද්‍යාව', 'ඉතිහාසය', 'භූගෝල විද්‍යාව', 'ඉංග්‍රීසි භාෂාව', 'සාහිත්‍යය']
+        };
+
+        const modules = {
+            'History': [
+                'Ancient Civilizations',
+                'Medieval History', 
+                'Colonial History',
+                'Modern History',
+                'Post-Independence History'
+            ],
+            'Mathematics': [
+                'Number Systems',
+                'Algebra Basics',
+                'Geometry',
+                'Statistics',
+                'Probability'
+            ],
+            'Science': [
+                'Matter and Energy',
+                'Living Organisms',
+                'Forces and Motion',
+                'Earth and Universe',
+                'Chemical Reactions'
+            ],
+            'Geography': [
+                'Physical Geography',
+                'Human Geography',
+                'Climate and Weather',
+                'Natural Resources',
+                'Environmental Issues'
+            ],
+            'English Language': [
+                'Grammar Fundamentals',
+                'Vocabulary Building',
+                'Reading Comprehension',
+                'Writing Skills',
+                'Communication Skills'
+            ],
+            'Literature': [
+                'Poetry Analysis',
+                'Short Stories',
+                'Drama and Plays',
+                'Novel Studies',
+                'Literary Devices'
+            ]
+        };
+
+        const quizQuestions = {
+            1: [
+                {
+                    question: "What is the basic concept covered in this stage?",
+                    options: ["Option A", "Option B", "Option C", "Option D"],
+                    correct: 0
+                },
+                {
+                    question: "Which of the following is most important?",
+                    options: ["Choice 1", "Choice 2", "Choice 3", "Choice 4"],
+                    correct: 1
+                }
+            ],
+            2: [
+                {
+                    question: "What intermediate concept should you understand?",
+                    options: ["Answer A", "Answer B", "Answer C", "Answer D"],
+                    correct: 2
+                },
+                {
+                    question: "How do you apply this knowledge?",
+                    options: ["Method 1", "Method 2", "Method 3", "Method 4"],
+                    correct: 1
+                }
+            ],
+            3: [
+                {
+                    question: "What advanced principle is demonstrated here?",
+                    options: ["Complex A", "Complex B", "Complex C", "Complex D"],
+                    correct: 3
+                },
+                {
+                    question: "How would you solve this challenging problem?",
+                    options: ["Solution 1", "Solution 2", "Solution 3", "Solution 4"],
+                    correct: 0
+                }
+            ]
+        };
+
+        // Navigation Functions
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            appState.currentSection = sectionId;
+        }
+
+        function goBack() {
+            const backFlow = {
+                'medium-selection': 'homepage',
+                'subject-selection': 'medium-selection',
+                'module-selection': 'subject-selection',
+                'stage-selection': 'module-selection',
+                'quiz-section': 'stage-selection',
+                'certificate-section': 'stage-selection'
+            };
+            
+            const previousSection = backFlow[appState.currentSection];
+            if (previousSection) {
+                showSection(previousSection);
+            }
+        }
+
+        // Selection Functions
+        function selectGrade(grade) {
+            appState.selectedGrade = grade;
+            showSection('medium-selection');
+        }
+
+        function selectMedium(medium) {
+            appState.selectedMedium = medium;
+            loadSubjects();
+            showSection('subject-selection');
+        }
+
+        function loadSubjects() {
+            const subjectsGrid = document.getElementById('subjects-grid');
+            subjectsGrid.innerHTML = '';
+            
+            subjects[appState.selectedMedium].forEach(subject => {
+                const button = document.createElement('button');
+                button.className = 'option-card subject';
+                button.textContent = subject;
+                button.onclick = () => selectSubject(subject);
+                subjectsGrid.appendChild(button);
+            });
+        }
+
+        function selectSubject(subject) {
+            appState.selectedSubject = subject;
+            loadModules();
+            showSection('module-selection');
+        }
+
+        function loadModules() {
+            const modulesGrid = document.getElementById('modules-grid');
+            const moduleTitle = document.getElementById('module-title');
+            
+            moduleTitle.textContent = `${appState.selectedSubject} - Select Module`;
+            modulesGrid.innerHTML = '';
+            
+            const subjectModules = modules[appState.selectedSubject] || [
+                'Module 1: Introduction',
+                'Module 2: Intermediate',
+                'Module 3: Advanced',
+                'Module 4: Expert',
+                'Module 5: Master'
+            ];
+            
+            subjectModules.forEach((module, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-card module';
+                button.textContent = module;
+                button.onclick = () => selectModule(module, index);
+                modulesGrid.appendChild(button);
+            });
+        }
+
+        function selectModule(module, index) {
+            appState.selectedModule = module;
+            appState.moduleIndex = index;
+            loadStages();
+            showSection('stage-selection');
+        }
+
+        function loadStages() {
+            const stagesGrid = document.getElementById('stages-grid');
+            const stageTitle = document.getElementById('stage-title');
+            const stageStatus = document.getElementById('stage-status');
+            
+            stageTitle.textContent = appState.selectedModule;
+            stagesGrid.innerHTML = '';
+            stageStatus.innerHTML = '';
+            
+            const moduleKey = `${appState.selectedSubject}-${appState.moduleIndex}`;
+            const progress = appState.userProgress[moduleKey] || { completedStages: [] };
+            
+            // Create stage status indicators
+            for (let i = 1; i <= 3; i++) {
+                const indicator = document.createElement('div');
+                indicator.className = 'stage-indicator';
+                indicator.textContent = i;
+                
+                if (progress.completedStages.includes(i)) {
+                    indicator.classList.add('completed');
+                } else if (i === 1 || progress.completedStages.includes(i - 1)) {
+                    indicator.classList.add('current');
+                }
+                
+                stageStatus.appendChild(indicator);
+            }
+            
+            // Create stage buttons
+            for (let i = 1; i <= 3; i++) {
+                const button = document.createElement('button');
+                button.className = 'option-card stage';
+                button.textContent = `Stage ${i}`;
+                
+                if (i === 1 || progress.completedStages.includes(i - 1)) {
+                    button.onclick = () => startStage(i);
+                } else {
+                    button.disabled = true;
+                    button.style.opacity = '0.5';
+                }
+                
+                if (progress.completedStages.includes(i)) {
+                    button.innerHTML += ' ✓';
+                    button.style.background = 'linear-gradient(135deg, #00b894 0%, #00cec9 100%)';
+                }
+                
+                stagesGrid.appendChild(button);
+            }
+            
+            // Show certificate button if all stages completed
+            if (progress.completedStages.length === 3) {
+                const certButton = document.createElement('button');
+                certButton.className = 'option-card';
+                certButton.style.background = 'linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%)';
+                certButton.textContent = 'View Certificate 🎓';
+                certButton.onclick = () => showCertificate();
+                stagesGrid.appendChild(certButton);
+            }
+        }
+
+        function startStage(stage) {
+            appState.currentStage = stage;
+            appState.currentQuestionIndex = 0;
+            appState.quizAnswers = [];
+            appState.quizScore = 0;
+            loadQuiz();
+            showSection('quiz-section');
+        }
+
+        function loadQuiz() {
+            const quizContainer = document.getElementById('quiz-container');
+            const quizTitle = document.getElementById('quiz-title');
+            const submitButton = document.getElementById('submit-quiz');
+            
+            quizTitle.textContent = `${appState.selectedModule} - Stage ${appState.currentStage}`;
+            
+            const questions = quizQuestions[appState.currentStage];
+            quizContainer.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                questionDiv.innerHTML = `
+                    <h3>Question ${index + 1}: ${q.question}</h3>
+                    <div class="options" data-question="${index}">
+                        ${q.options.map((option, optIndex) => `
+                            <div class="quiz-option" onclick="selectAnswer(${index}, ${optIndex})" data-option="${optIndex}">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                quizContainer.appendChild(questionDiv);
+            });
+            
+            submitButton.style.display = 'block';
+            updateQuizProgress();
+        }
+
+        function selectAnswer(questionIndex, optionIndex) {
+            const optionsContainer = document.querySelector(`[data-question="${questionIndex}"]`);
+            const options = optionsContainer.querySelectorAll('.quiz-option');
+            
+            options.forEach(option => option.classList.remove('selected'));
+            options[optionIndex].classList.add('selected');
+            
+            appState.quizAnswers[questionIndex] = optionIndex;
+            updateQuizProgress();
+        }
+
+        function updateQuizProgress() {
+            const totalQuestions = quizQuestions[appState.currentStage].length;
+            const answeredQuestions = appState.quizAnswers.filter(answer => answer !== undefined).length;
+            const progress = (answeredQuestions / totalQuestions) * 100;
+            
+            document.getElementById('quiz-progress').style.width = `${progress}%`;
+        }
+
+        function submitQuiz() {
+            const questions = quizQuestions[appState.currentStage];
+            let score = 0;
+            
+            questions.forEach((q, index) => {
+                const optionsContainer = document.querySelector(`[data-question="${index}"]`);
+                const options = optionsContainer.querySelectorAll('.quiz-option');
+                
+                options.forEach((option, optIndex) => {
+                    if (optIndex === q.correct) {
+                        option.classList.add('correct');
+                    } else if (optIndex === appState.quizAnswers[index] && optIndex !== q.correct) {
+                        option.classList.add('incorrect');
+                    }
+                });
+                
+                if (appState.quizAnswers[index] === q.correct) {
+                    score++;
+                }
+            });
+            
+            appState.quizScore = (score / questions.length) * 100;
+            
+            // Check if passed (70% or higher)
+            if (appState.quizScore >= 70) {
+                markStageCompleted();
+                setTimeout(() => {
+                    alert(`Congratulations! You scored ${appState.quizScore.toFixed(0)}% and passed Stage ${appState.currentStage}!`);
+                    showSection('stage-selection');
+                    loadStages(); // Refresh stages
+                }, 2000);
+            } else {
+                setTimeout(() => {
+                    alert(`You scored ${appState.quizScore.toFixed(0)}%. You need 70% to pass. Please try again!`);
+                }, 2000);
+            }
+            
+            document.getElementById('submit-quiz').style.display = 'none';
+        }
+
+        function markStageCompleted() {
+            const moduleKey = `${appState.selectedSubject}-${appState.moduleIndex}`;
+            if (!appState.userProgress[moduleKey]) {
+                appState.userProgress[moduleKey] = { completedStages: [] };
+            }
+            
+            if (!appState.userProgress[moduleKey].completedStages.includes(appState.currentStage)) {
+                appState.userProgress[moduleKey].completedStages.push(appState.currentStage);
+            }
+        }
+
+        function showCertificate() {
+            const certName = document.getElementById('cert-name');
+            const certModule = document.getElementById('cert-module');
+            const certDate = document.getElementById('cert-date');
+            
+            certName.textContent = 'Student'; // In real app, this would be user's name
+            certModule.textContent = appState.selectedModule;
+            certDate.textContent = new Date().toLocaleDateString();
+            
+            showSection('certificate-section');
+        }
+
+        function downloadCertificate() {
+            // In a real application, this would generate and download a PDF
+            alert('Certificate download feature would be implemented here!');
+        }
+
+        function continueLearning() {
+            showSection('stage-selection');
+        }
+
+        // Initialize the application
+        window.onload = function() {
+            showSection('homepage');
+        };
+    </script>
+</body>
+</html>
