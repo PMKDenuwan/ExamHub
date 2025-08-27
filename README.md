@@ -40,7 +40,7 @@ The goal of ExamHub is to **empower students through interactive learning** by p
 ![Stages](./Stage.png)  
 
 ### 🔹 Certificates
-![Certificate](./screenshots/certificate.png)  
+![Certificate](./certificates.png)  
 
 ---
 
