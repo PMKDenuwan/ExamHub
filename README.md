@@ -24,8 +24,6 @@ The goal of ExamHub is to **empower students through interactive learning** by p
 
 ## 🖼️ Screenshots / Demo  
 
-> Replace these placeholders with actual images of your project.  
-
 ### 🔹 Homepage  
 ![Homepage Screenshot](./Home.png)  
 
