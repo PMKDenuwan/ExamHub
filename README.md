@@ -29,15 +29,19 @@ The goal of ExamHub is to **empower students through interactive learning** by p
 ### 🔹 Homepage  
 ![Homepage Screenshot](./Home.png)  
 
-### 🔹 Grade & Medium Selection  
+### 🔹 Grade  
 ![Grade Selection](./Grade.png)  
+
+### 🔹 Medium
 ![Medium Selection](./Medium.png)  
 
 ### 🔹 Subject Selection  
 ![Subject Selection](./Subject.png)  
   
-### 🔹 Stages & Certificates  
+### 🔹 Stages  
 ![Stages](./Stage.png)  
+
+### 🔹 Certificates
 ![Certificate](./screenshots/certificate.png)  
 
 ---
